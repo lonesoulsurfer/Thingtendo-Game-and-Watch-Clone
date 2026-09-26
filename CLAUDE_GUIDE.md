@@ -34,7 +34,6 @@ Features added in this fork:
 - 13 games on one device
 - Pause, continue after a game over, and a per-game colour mode
 - A two-button layout for the games that originally had only a left and a right button
-- Support for the ST7789V display
 
 ## Repository layout
 
