@@ -205,6 +205,10 @@ To add a game:
 
 Tropical Fish swaps Game A and Game B in the button code, and that is tied to its position in the list. If you insert a game before it, update that index in `button.c`.
 
+## Need help building it?
+
+Upload `CLAUDE_GUIDE.md` to Claude and tell it where you are up to. It will walk you through each step, from setting up the build tools to flashing the firmware.
+
 ## Credits
 
 - [slowlane112/Esp32-Game-and-Watch](https://github.com/slowlane112/Esp32-Game-and-Watch): the original project this is based on
