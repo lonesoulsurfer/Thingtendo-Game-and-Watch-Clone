@@ -4,6 +4,7 @@
 #include "game.h"
 #include "button.h"
 #include "display.h"
+#include "nvs.h"
 
 uint16_t disabled_color = BYTE_SWAP ? 0xf49c : 0x9cf4;
 uint16_t menu_bg_color = BYTE_SWAP ? 0xf8bd : 0xbdf8;
@@ -25,6 +26,9 @@ static uint32_t menu_time = 0;
 #elif defined(MODEL_MULTI_SCREEN_DPAD)    
 	extern const uint8_t img_start[] asm("_binary_menu_multi_screen_dpad_raw_start");
 	extern const uint8_t img_end[]   asm("_binary_menu_multi_screen_dpad_raw_end"); 
+#elif defined(MODEL_SINGLE_SCREEN_DPAD)
+	extern const uint8_t img_start[] asm("_binary_menu_single_screen_dpad_raw_start");
+	extern const uint8_t img_end[]   asm("_binary_menu_single_screen_dpad_raw_end");
 #endif
 
 static void menu_move(bool move_up) {
@@ -60,6 +64,14 @@ void menu_buttons_process(void)
 	else if (menu_button == 3) {
 		game_save_selected(menu_index);
 		menu_show = false;
+	}
+	else if (menu_button == 4) {
+		/* easter egg: flip this game's colour bit and persist it */
+		const char *mask_key = (menu_index < 8) ? "color_mask" : "color_mask2";
+		uint8_t mask = nvs_get_value(mask_key, 0);
+		mask ^= (uint8_t)(1 << (menu_index < 8 ? menu_index : menu_index - 8));
+		nvs_set_value(mask_key, mask);
+		menu_update = true;
 	}
 }
 

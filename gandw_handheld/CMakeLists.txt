@@ -15,6 +15,10 @@ elseif(MODEL STREQUAL "multi_screen_dpad")
 	add_compile_definitions(MODEL_MULTI_SCREEN_DPAD=1)
 	set(model_message "Multi Screen Dpad")
 		
+elseif(MODEL STREQUAL "single_screen_dpad")
+	add_compile_definitions(MODEL_SINGLE_SCREEN_DPAD=1)
+	set(model_message "Single Screen Dpad")
+
 else()
 	add_compile_definitions(MODEL_SINGLE_SCREEN_4_BUTTON=1)
 	set(model_message "Single Screen 4 Button (Default)")

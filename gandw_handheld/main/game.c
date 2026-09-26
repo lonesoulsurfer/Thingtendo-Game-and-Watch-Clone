@@ -2,6 +2,10 @@
 #include "game.h"
 #include "button.h"
 #include "nvs.h"
+uint8_t g_current_game_index = 0;
+
+/* colour easter-egg hook, defined in the LCD emulator (gw_graphic.c) */
+extern void gw_gfx_set_color_mode(uint8_t active, uint16_t tint_color);
 
 Game games[] = {
 	
@@ -60,6 +64,22 @@ Game games[] = {
 	{ .name="Gold Cliff", .year="1988", .img_unit_width=160, .img_unit_height=200, .img_box_width=271, .img_box_height=154, .color_line=2, .text_color=0x0000, .box_bg_color=0x6d78, .box_border_color=0xe5cb },
 	{ .name="Zelda", .year="1989", .img_unit_width=160, .img_unit_height=200, .img_box_width=268, .img_box_height=154, .color_line=2, .text_color=0xd126, .box_bg_color=0xc449, .box_border_color=0xd126 }
 
+#elif defined(MODEL_SINGLE_SCREEN_DPAD)
+
+	{ .name="Donkey Kong Jr.", .year="1982", .img_unit_width=256, .img_unit_height=154, .color_line=8, .text_color=0xffff },
+	{ .name="Balloon Fight", .year="1986", .img_unit_width=256, .img_unit_height=154, .color_line=2, .text_color=0xffff },
+	{ .name="Climber", .year="1986", .img_unit_width=256, .img_unit_height=154, .color_line=2, .text_color=0xffff },
+	{ .name="Super Mario Bros.", .year="1986", .img_unit_width=256, .img_unit_height=154, .color_line=2, .text_color=0xffff },
+	{ .name="Ball", .year="1980", .img_unit_width=232, .img_unit_height=156, .color_line=2, .text_color=0xffff },
+	{ .name="Helmet", .year="1981", .img_unit_width=232, .img_unit_height=154, .color_line=2, .text_color=0xffff },
+	{ .name="Parachute", .year="1981", .img_unit_width=256, .img_unit_height=154, .color_line=2, .text_color=0xffff },
+	{ .name="Octopus", .year="1981", .img_unit_width=256, .img_unit_height=154, .color_line=2, .text_color=0xffff },
+	{ .name="Popeye", .year="1981", .img_unit_width=256, .img_unit_height=154, .color_line=2, .text_color=0xffff },
+	{ .name="Fire", .year="1981", .img_unit_width=256, .img_unit_height=154, .color_line=2, .text_color=0xffff },
+	{ .name="Turtle Bridge", .year="1982", .img_unit_width=256, .img_unit_height=154, .color_line=2, .text_color=0x0000 },
+	{ .name="Tropical Fish", .year="1985", .img_unit_width=256, .img_unit_height=154, .color_line=10, .text_color=0xffff },
+	{ .name="Mario the Juggler", .year="1991", .img_unit_width=256, .img_unit_height=155, .color_line=10, .text_color=0x0000 }
+
 #endif
 
 };
@@ -71,6 +91,39 @@ unsigned int ROM_DATA_LENGTH;
 
 void game_load(int index)
 {
+	g_current_game_index = index;
+
+	/* --- Colour easter egg: read this game's saved on/off bit and set the
+	   tint BEFORE the ROM is parsed, so it bakes into the segments. --- */
+#if defined(MODEL_SINGLE_SCREEN_DPAD)
+	{
+		static const uint16_t game_tints[] = {
+			0xF800, /* 0 Donkey Kong Jr - red */
+			0xF81F, /* 1 Balloon Fight - magenta */
+			0x07FF, /* 2 Climber - cyan */
+			0x07E0, /* 3 Super Mario Bros - green */
+			0xFC00, /* 4 Ball - orange */
+			0x861F, /* 5 Helmet - light blue */
+			0x041F, /* 6 Parachute - sky blue */
+			0x801F, /* 7 Octopus - purple */
+			0x87E0, /* 8 Popeye - lime */
+			0xFA00, /* 9 Fire - red-orange */
+			0x07F0, /* 10 Turtle Bridge - aqua green */
+			0xF810, /* 11 Tropical Fish - pink */
+			0x441F  /* 12 Mario the Juggler - soft blue */
+		};
+		/* colour on/off bits: games 0-7 in color_mask, games 8-15 in color_mask2 (NVS values are 8-bit) */
+		int tint_count = (int)(sizeof(game_tints) / sizeof(game_tints[0]));
+		uint8_t color_mask = nvs_get_value(index < 8 ? "color_mask" : "color_mask2", 0);
+		int color_bit = (index < 8) ? index : index - 8;
+		if (index >= 0 && index < tint_count && (color_mask & (1 << color_bit)))
+			gw_gfx_set_color_mode(1, game_tints[index]);
+		else
+			gw_gfx_set_color_mode(0, 0xffff);
+	}
+#else
+	gw_gfx_set_color_mode(0, 0xffff);
+#endif
 
 	button_control_type = BUTTON_CONTROL_TYPE_NONE;
 	button_control_mode = BUTTON_CONTROL_MODE_NONE; 
@@ -404,6 +457,91 @@ void game_load(int index)
 		ROM_DATA_LENGTH = zelda_gw_end - zelda_gw_start;
 	}
 	
+#elif defined(MODEL_SINGLE_SCREEN_DPAD)
+
+	extern const uint8_t gnwdkjr_gw_start[] asm("_binary_Game___Watch_Donkey_Kong_Jr___New_Wide_Screen__gw_start");
+	extern const uint8_t gnwdkjr_gw_end[]   asm("_binary_Game___Watch_Donkey_Kong_Jr___New_Wide_Screen__gw_end");
+
+	extern const uint8_t gnwbfight_gw_start[] asm("_binary_Game___Watch_Balloon_Fight__Crystal_Screen__gw_start");
+	extern const uint8_t gnwbfight_gw_end[]   asm("_binary_Game___Watch_Balloon_Fight__Crystal_Screen__gw_end");
+
+	extern const uint8_t gnwclimber_gw_start[] asm("_binary_Game___Watch_Climber__Crystal_Screen__gw_start");
+	extern const uint8_t gnwclimber_gw_end[]   asm("_binary_Game___Watch_Climber__Crystal_Screen__gw_end");
+
+	extern const uint8_t gnwsmb_gw_start[] asm("_binary_Game___Watch_Super_Mario_Bros___Crystal_Screen__gw_start");
+	extern const uint8_t gnwsmb_gw_end[]   asm("_binary_Game___Watch_Super_Mario_Bros___Crystal_Screen__gw_end");
+
+	if (index == 0) {
+		ROM_DATA = (unsigned char *)gnwdkjr_gw_start;
+		ROM_DATA_LENGTH = gnwdkjr_gw_end - gnwdkjr_gw_start;
+	}
+	else if (index == 1) {
+		ROM_DATA = (unsigned char *)gnwbfight_gw_start;
+		ROM_DATA_LENGTH = gnwbfight_gw_end - gnwbfight_gw_start;
+	}
+	else if (index == 2) {
+		ROM_DATA = (unsigned char *)gnwclimber_gw_start;
+		ROM_DATA_LENGTH = gnwclimber_gw_end - gnwclimber_gw_start;
+	}
+	else if (index == 3) {
+		ROM_DATA = (unsigned char *)gnwsmb_gw_start;
+		ROM_DATA_LENGTH = gnwsmb_gw_end - gnwsmb_gw_start;
+	}
+	extern const uint8_t dp_ball_start[] asm("_binary_Game___Watch_Ball_gw_start");
+	extern const uint8_t dp_ball_end[] asm("_binary_Game___Watch_Ball_gw_end");
+	extern const uint8_t dp_helmet_start[] asm("_binary_Game___Watch_Helmet__CN_17_version__gw_start");
+	extern const uint8_t dp_helmet_end[] asm("_binary_Game___Watch_Helmet__CN_17_version__gw_end");
+	extern const uint8_t dp_pchute_start[] asm("_binary_Game___Watch_Parachute_gw_start");
+	extern const uint8_t dp_pchute_end[] asm("_binary_Game___Watch_Parachute_gw_end");
+	extern const uint8_t dp_octopus_start[] asm("_binary_Game___Watch_Octopus_gw_start");
+	extern const uint8_t dp_octopus_end[] asm("_binary_Game___Watch_Octopus_gw_end");
+	extern const uint8_t dp_popeye_start[] asm("_binary_Game___Watch_Popeye__Wide_Screen__gw_start");
+	extern const uint8_t dp_popeye_end[] asm("_binary_Game___Watch_Popeye__Wide_Screen__gw_end");
+	extern const uint8_t dp_firews_start[] asm("_binary_Game___Watch_Fire__Wide_Screen__gw_start");
+	extern const uint8_t dp_firews_end[] asm("_binary_Game___Watch_Fire__Wide_Screen__gw_end");
+	extern const uint8_t dp_tbridge_start[] asm("_binary_Game___Watch_Turtle_Bridge_gw_start");
+	extern const uint8_t dp_tbridge_end[] asm("_binary_Game___Watch_Turtle_Bridge_gw_end");
+	extern const uint8_t dp_tfish_start[] asm("_binary_Game___Watch_Tropical_Fish_gw_start");
+	extern const uint8_t dp_tfish_end[] asm("_binary_Game___Watch_Tropical_Fish_gw_end");
+	extern const uint8_t dp_mariotj_start[] asm("_binary_Game___Watch_Mario_The_Juggler_gw_start");
+	extern const uint8_t dp_mariotj_end[] asm("_binary_Game___Watch_Mario_The_Juggler_gw_end");
+	if (index == 4) {
+		ROM_DATA = (unsigned char *)dp_ball_start;
+		ROM_DATA_LENGTH = dp_ball_end - dp_ball_start;
+	}
+	else if (index == 5) {
+		ROM_DATA = (unsigned char *)dp_helmet_start;
+		ROM_DATA_LENGTH = dp_helmet_end - dp_helmet_start;
+	}
+	else if (index == 6) {
+		ROM_DATA = (unsigned char *)dp_pchute_start;
+		ROM_DATA_LENGTH = dp_pchute_end - dp_pchute_start;
+	}
+	else if (index == 7) {
+		ROM_DATA = (unsigned char *)dp_octopus_start;
+		ROM_DATA_LENGTH = dp_octopus_end - dp_octopus_start;
+	}
+	else if (index == 8) {
+		ROM_DATA = (unsigned char *)dp_popeye_start;
+		ROM_DATA_LENGTH = dp_popeye_end - dp_popeye_start;
+	}
+	else if (index == 9) {
+		ROM_DATA = (unsigned char *)dp_firews_start;
+		ROM_DATA_LENGTH = dp_firews_end - dp_firews_start;
+	}
+	else if (index == 10) {
+		ROM_DATA = (unsigned char *)dp_tbridge_start;
+		ROM_DATA_LENGTH = dp_tbridge_end - dp_tbridge_start;
+	}
+	else if (index == 11) {
+		ROM_DATA = (unsigned char *)dp_tfish_start;
+		ROM_DATA_LENGTH = dp_tfish_end - dp_tfish_start;
+	}
+	else if (index == 12) {
+		ROM_DATA = (unsigned char *)dp_mariotj_start;
+		ROM_DATA_LENGTH = dp_mariotj_end - dp_mariotj_start;
+	}
+
 #endif
 
 }

@@ -126,11 +126,11 @@ static esp_lcd_panel_handle_t display_setup_lcd_1(void) {
 	#if defined(MODEL_SINGLE_SCREEN_2_BUTTON) || defined(MODEL_MULTI_SCREEN_2_BUTTON)	
 		esp_lcd_panel_mirror(spi_lcd_handle, true, false);
 	#else
-		esp_lcd_panel_mirror(spi_lcd_handle, false, true);
+		esp_lcd_panel_mirror(spi_lcd_handle, true, false);
 	#endif
 
 	ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(spi_lcd_handle, true));
-	esp_lcd_panel_invert_color(spi_lcd_handle, true);
+	esp_lcd_panel_invert_color(spi_lcd_handle, false);
 
 #endif	
 

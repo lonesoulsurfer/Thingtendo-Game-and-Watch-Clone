@@ -16,6 +16,7 @@ typedef struct {
 
 extern Game games[];
 extern int game_count;
+extern uint8_t g_current_game_index;
 void game_load(int index);
 uint8_t game_get_selected(void);
 void game_save_selected(uint8_t selected_game);

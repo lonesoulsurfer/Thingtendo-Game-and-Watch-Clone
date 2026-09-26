@@ -39,6 +39,25 @@ elseif(MODEL STREQUAL "multi_screen_dpad")
 		"Game & Watch Zelda.gw"
 	)
 
+elseif(MODEL STREQUAL "single_screen_dpad")
+
+	list(APPEND model_assets
+		"menu_single_screen_dpad.raw"
+		"Game & Watch Donkey Kong Jr. (New Wide Screen).gw"
+		"Game & Watch Balloon Fight (Crystal Screen).gw"
+		"Game & Watch Climber (Crystal Screen).gw"
+		"Game & Watch Super Mario Bros. (Crystal Screen).gw"
+		"Game & Watch Ball.gw"
+		"Game & Watch Helmet (CN-17 version).gw"
+		"Game & Watch Parachute.gw"
+		"Game & Watch Octopus.gw"
+		"Game & Watch Popeye (Wide Screen).gw"
+		"Game & Watch Fire (Wide Screen).gw"
+		"Game & Watch Turtle Bridge.gw"
+		"Game & Watch Tropical Fish.gw"
+		"Game & Watch Mario The Juggler.gw"
+	)
+
 else()
 
 	list(APPEND model_assets

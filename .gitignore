@@ -53,3 +53,9 @@ dkms.conf
 
 build/
 *.gw
+
+# Firmware images (contain game data)
+*.bin
+
+# Local backups
+*.bak*

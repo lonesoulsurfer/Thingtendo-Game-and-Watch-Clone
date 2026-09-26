@@ -43,5 +43,6 @@ void gw_gfx_sm500_rendering(uint16 *framebuffer);
 void gw_gfx_sm510_rendering(uint16 *framebuffer);
 void gw_preprocess_segments(void);
 void gw_byte_swap(void);
+void gw_gfx_set_color_mode(uint8 active, uint16 tint_color);
 
 #endif /* _GW_GRAPHIC_H_ */

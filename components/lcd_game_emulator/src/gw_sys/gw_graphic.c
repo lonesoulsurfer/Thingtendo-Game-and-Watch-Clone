@@ -57,6 +57,47 @@ static uint16 SEG_TRANSPARENT_COLOR_16_BIT = 0;
 #define SEG_BLACK_COLOR 0x0
 #define SEG_WHITE_COLOR_16_BIT 0xffff
 #define SEG_BLACK_COLOR_16_BIT 0x0000
+/* Easter egg colour tint mode -- multiplies every rendered pixel
+   (background art and moving segments alike) against a chosen tint
+   colour, per-channel, when active. Off by default. */
+static uint8 gw_color_mode_active = 0;
+static uint16 gw_color_mode_tint = 0xffff;
+void gw_gfx_set_color_mode(uint8 active, uint16 tint_color) {
+	gw_color_mode_active = active;
+	gw_color_mode_tint = tint_color;
+}
+static inline uint16 rgb_tint_multiply(uint16 pixel, uint16 tint) {
+	uint32 p_r = (pixel & GW_MASK_RGB565_R) >> 11;
+	uint32 p_g = (pixel & GW_MASK_RGB565_G) >> 5;
+	uint32 p_b = (pixel & GW_MASK_RGB565_B);
+	uint32 t_r = (tint & GW_MASK_RGB565_R) >> 11;
+	uint32 t_g = (tint & GW_MASK_RGB565_G) >> 5;
+	uint32 t_b = (tint & GW_MASK_RGB565_B);
+	p_r = (p_r * t_r) / 31;
+	p_g = (p_g * t_g) / 63;
+	p_b = (p_b * t_b) / 31;
+	return (uint16)((p_r << 11) | (p_g << 5) | p_b);
+}
+
+/* Easter-egg colourise: blend the tint OVER the background weighted by the
+   segment's opacity, so solid ("black") pixels become the full tint colour and
+   anti-aliased edges blend smoothly. Unlike a multiply, this actually colours
+   the dark pixels. Returns native RGB565 (matches the non-byte-swap bake path;
+   gw_byte_swap() runs afterwards). */
+static inline uint16 rgb_colorize_non_byte_swap(uint32 bg, uint16 tint, uint32 cur_pixel) {
+	uint32 a  = 255 - (cur_pixel & 0xFF);   /* opacity: 255 = solid segment */
+	uint32 ia = 255 - a;
+	uint32 bg_r = (bg   & GW_MASK_RGB565_R) >> 11;
+	uint32 bg_g = (bg   & GW_MASK_RGB565_G) >> 5;
+	uint32 bg_b = (bg   & GW_MASK_RGB565_B);
+	uint32 t_r  = (tint & GW_MASK_RGB565_R) >> 11;
+	uint32 t_g  = (tint & GW_MASK_RGB565_G) >> 5;
+	uint32 t_b  = (tint & GW_MASK_RGB565_B);
+	uint32 r = (t_r * a + bg_r * ia) / 255;
+	uint32 g = (t_g * a + bg_g * ia) / 255;
+	uint32 b = (t_b * a + bg_b * ia) / 255;
+	return (uint16)((r << 11) | (g << 5) | b);
+}
 
 unsigned int gw_segments_16bit_size = 0;
 uint16 *gw_segments_16bit;
@@ -206,7 +247,10 @@ void gw_preprocess_segments(void) {
 						if (gw_head.flags & FLAG_SEGMENTS_2BITS) {
 							if ( cur_pixel == 0 ) cur_pixel = 39;
 						}
-						gw_segments_16bit[segment_offset] = rgb_multiply_8bits_non_byte_swap(gw_background[y * GW_SCREEN_WIDTH + x], cur_pixel);
+						if (gw_color_mode_active)
+							gw_segments_16bit[segment_offset] = rgb_colorize_non_byte_swap(gw_background[y * GW_SCREEN_WIDTH + x], gw_color_mode_tint, cur_pixel);
+						else
+							gw_segments_16bit[segment_offset] = rgb_multiply_8bits_non_byte_swap(gw_background[y * GW_SCREEN_WIDTH + x], cur_pixel);
 					}
 					else {
 						gw_segments_16bit[segment_offset] = SEG_TRANSPARENT_COLOR_16_BIT;
@@ -319,7 +363,13 @@ __attribute__((optimize("unroll-loops"))) static inline void update_segment_2bit
 			
 			// change black color to get transparency effect
 			if ( cur_pixel == 0 ) cur_pixel = 39;
-			gw_graphic_framebuffer[line * GW_SCREEN_WIDTH + x] = rgb_multiply_8bits(source_mixer[line * GW_SCREEN_WIDTH + x], cur_pixel);
+			{
+			uint16 result_pixel = rgb_multiply_8bits(source_mixer[line * GW_SCREEN_WIDTH + x], cur_pixel);
+			if (gw_color_mode_active) {
+				result_pixel = rgb_tint_multiply(result_pixel, gw_color_mode_tint);
+			}
+			gw_graphic_framebuffer[line * GW_SCREEN_WIDTH + x] = result_pixel;
+			}
 			}
 
 		}
@@ -369,7 +419,13 @@ __attribute__((optimize("unroll-loops"))) static inline void update_segment_4bit
 			/* Check if there something to mix
 			if the segment pixel is transparent nothing to do. */
 			if (cur_pixel != SEG_TRANSPARENT_COLOR)
-				gw_graphic_framebuffer[line * GW_SCREEN_WIDTH + x] = rgb_multiply_8bits(source_mixer[line * GW_SCREEN_WIDTH + x], cur_pixel);
+				{
+			uint16 result_pixel = rgb_multiply_8bits(source_mixer[line * GW_SCREEN_WIDTH + x], cur_pixel);
+			if (gw_color_mode_active) {
+				result_pixel = rgb_tint_multiply(result_pixel, gw_color_mode_tint);
+			}
+			gw_graphic_framebuffer[line * GW_SCREEN_WIDTH + x] = result_pixel;
+			}
 		}
 	}
 }
@@ -410,7 +466,13 @@ __attribute__((optimize("unroll-loops"))) static inline void update_segment_8bit
 				it prevents from mixing 2 overlapping segments
 				'gw_background' is the colour sheet. segment colour is white. */
 			if (cur_pixel != SEG_TRANSPARENT_COLOR)
-				gw_graphic_framebuffer[line * GW_SCREEN_WIDTH + x] = rgb_multiply_8bits(source_mixer[line * GW_SCREEN_WIDTH + x], cur_pixel);
+				{
+			uint16 result_pixel = rgb_multiply_8bits(source_mixer[line * GW_SCREEN_WIDTH + x], cur_pixel);
+			if (gw_color_mode_active) {
+				result_pixel = rgb_tint_multiply(result_pixel, gw_color_mode_tint);
+			}
+			gw_graphic_framebuffer[line * GW_SCREEN_WIDTH + x] = result_pixel;
+			}
 		}
 	}
 }
