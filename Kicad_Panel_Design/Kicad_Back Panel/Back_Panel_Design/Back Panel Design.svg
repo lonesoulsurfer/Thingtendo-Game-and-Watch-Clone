@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="Back Panel Design.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.0888418"
+     inkscape:cx="319.31571"
+     inkscape:cy="272.63913"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <rect
+       x="53.485558"
+       y="264.04263"
+       width="114.41847"
+       height="44.007105"
+       id="rect36" />
+    <rect
+       x="99.52376"
+       y="178.05952"
+       width="400.12614"
+       height="199.04752"
+       id="rect35" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3px;line-height:0;font-family:'Franklin Gothic Medium';-inkscape-font-specification:'Franklin Gothic Medium, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.6;stroke-dasharray:none"
+       x="50.159374"
+       y="58.772598"
+       id="text29"
+       inkscape:export-filename="text1.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan29"
+         style="font-size:3px;line-height:1.15;stroke-width:0"
+         x="50.159374"
+         y="58.772598">HOW TO PLAY</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3px;line-height:1.15;stroke-width:0"
+         x="50.159374"
+         y="62.222599"
+         id="tspan30"> </tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3px;line-height:1.35;stroke-width:0"
+         x="50.159374"
+         y="65.972595"
+         id="tspan31"
+         dx="0 0 0 -0.17913148">•  LEFT/RIGHT: select game</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3px;line-height:1.35;stroke-width:0"
+         x="50.159374"
+         y="70.022598"
+         dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.17913148"
+         id="tspan3">•  GAME A/B: difficulty</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3px;line-height:1.35;stroke-width:0"
+         x="50.159374"
+         y="74.072601"
+         id="tspan32">•  JUMP: start selected game</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3px;line-height:1.35;stroke-width:0"
+         x="50.159374"
+         y="78.122597"
+         id="tspan34">•  JUMP+LEFT: Menu (hold 1 second)</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3px;line-height:1.35;stroke-width:0"
+         x="50.159374"
+         y="82.1726"
+         id="tspan35">•  Hold TIME + LEFT/RIGHT: volume</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text35"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:15.1181px;line-height:1.35;font-family:'Franklin Gothic Medium';-inkscape-font-specification:'Franklin Gothic Medium, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect35);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.6;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text36"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:15.1181px;line-height:1.35;font-family:'Franklin Gothic Medium';-inkscape-font-specification:'Franklin Gothic Medium, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect36);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.6;stroke-dasharray:none" />
+  </g>
+</svg>
