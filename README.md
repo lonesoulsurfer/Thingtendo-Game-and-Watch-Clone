@@ -1,5 +1,16 @@
 # ESP32 Game & Watch Handheld (Single Screen D-Pad)
 
+<table>
+  <tr>
+    <td><img src="images/photo_1.jpg" width="400"></td>
+    <td><img src="images/photo_2.jpg" width="400"></td>
+  </tr>
+  <tr>
+    <td><img src="images/photo_3.jpg" width="400"></td>
+    <td><img src="images/photo_4.jpg" width="400"></td>
+  </tr>
+</table>
+
 A handheld that plays classic Nintendo Game & Watch games on an ESP32-S3, with a 2.4" colour screen, a D-pad, speaker and rechargeable battery.
 
 This is a fork of [slowlane112/Esp32-Game-and-Watch](https://github.com/slowlane112/Esp32-Game-and-Watch). All credit for the original firmware, emulator integration and hardware designs goes to that project. This fork adds a new hardware model, `single_screen_dpad`, plus a few extra features.
