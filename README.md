@@ -6,6 +6,10 @@ This is a fork of [slowlane112/Esp32-Game-and-Watch](https://github.com/slowlane
 
 Full build guide on Instructables: *(add link)*
 
+## Need help building it?
+
+Upload `CLAUDE_GUIDE.md` to Claude and tell it where you are up to. It will walk you through each step, from setting up the build tools to flashing the firmware.
+
 ## What this fork adds
 
 - A new `single_screen_dpad` model: one screen, a 4-way D-pad, a Jump button, Game A, Game B and Time
@@ -14,7 +18,6 @@ Full build guide on Instructables: *(add link)*
 - Continue after a game over (rewinds roughly 10 to 15 seconds)
 - Colour mode: an optional colour tint for each game, set from the menu and remembered after power off
 - A two-button layout for the games that originally used only a left and a right button
-- Support for the ST7789V version of the 2.4" display
 
 Only the `single_screen_dpad` model has been built and tested with these changes.
 
@@ -204,10 +207,6 @@ To add a game:
 5. Add a tint colour for it in `game_tints[]` if you want colour mode.
 
 Tropical Fish swaps Game A and Game B in the button code, and that is tied to its position in the list. If you insert a game before it, update that index in `button.c`.
-
-## Need help building it?
-
-Upload `CLAUDE_GUIDE.md` to Claude and tell it where you are up to. It will walk you through each step, from setting up the build tools to flashing the firmware.
 
 ## Credits
 
