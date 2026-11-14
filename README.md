@@ -15,7 +15,8 @@ A handheld that plays classic Nintendo Game & Watch games on an ESP32-S3, with a
 
 This is a fork of [slowlane112/Esp32-Game-and-Watch](https://github.com/slowlane112/Esp32-Game-and-Watch). All credit for the original firmware, emulator integration and hardware designs goes to that project. This fork adds a new hardware model, `single_screen_dpad`, plus a few extra features.
 
-Full build guide on Instructables: *(add link)*
+- Full build guide on Instructables: [Thingtendo - a Game & Watch Clone Using ESP32-S3](https://www.instructables.com/Thingtendo-a-Game-Watch-Clone-Using-ESP32-S3/)
+- Video on YouTube: [Thingtendo](https://www.youtube.com/watch?v=Z86b5I75Vgs)
 
 ## Need help building it?
 
