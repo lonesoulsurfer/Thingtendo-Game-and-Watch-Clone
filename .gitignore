@@ -62,3 +62,10 @@ build/
 
 # KiCad automatic backups
 *-backups/
+
+# KiCad: automatic backups, caches, lock files and local settings
+*-backups/
+fp-info-cache
+*.kicad_prl
+*.lck
+_autosave-*

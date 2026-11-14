@@ -225,8 +225,13 @@ Tropical Fish swaps Game A and Game B in the button code, and that is tied to it
 - [bzhxx](https://github.com/bzhxx): LCD Game Emulator and LCD-Game-Shrinker
 - MAME and the MAME artwork community: the ROM and artwork sets the game files are built from
 
+## Support
+
+Do you like this project? You can support my work on [GitHub Sponsors](https://github.com/sponsors/lonesoulsurfer).
+
 ## License
 
-GPL-3.0, the same as the original project. See [LICENSE](LICENSE).
+- **Firmware and code:** GPL-3.0, the same as the original project. See [LICENSE](LICENSE).
+- **My PCB and panel designs** (`Kicad_GW/`, `Kicad_Panel_Design/` and `Gerber_Files/`): CERN Open Hardware Licence v2, Strongly Reciprocal. See [LICENSE-HARDWARE](LICENSE-HARDWARE). You can make, change and sell boards. If you share or sell a changed design, you must also share the changed design files under the same licence.
 
 Game & Watch is a trademark of Nintendo. This project is not affiliated with or endorsed by Nintendo.
